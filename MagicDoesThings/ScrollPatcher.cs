@@ -82,6 +82,7 @@ internal class ScrollPatcher
     {
         var scroll = scrollGetter.DeepCopy();
         string scrollSpellName;
+
         if (scroll.Name is not null && scroll.Name.String is not null)
         {
             scrollSpellName = string.Join(" ", scroll.Name.String.Split(" ")[2..]);
@@ -123,6 +124,10 @@ internal class ScrollPatcher
 
         firstEffect.PerkToApply = applyPerk.ToLink();
 
+        scroll.TargetType = TargetType.Self;
+        scroll.BaseCost = 180;
+        scroll.Keywords ??= new();
+        scroll.Keywords.Add(MagicDoesThings.Keyword._MDT_ScrollKeyword);
         scroll.Effects.Clear();
         EffectData effectData = new()
         {
@@ -214,6 +219,7 @@ internal class ScrollPatcher
 
         Perk applyPerk = _state.PatchMod.Perks.AddNew($"_MDTS_{scrollSpellName.Replace(" ", "")}ScrollPerk");
         applyPerk.Playable = true;
+        applyPerk.NumRanks = 1;
 
         FunctionConditionData firstFunctionConditionData = new()
         {
@@ -237,7 +243,7 @@ internal class ScrollPatcher
             Modification = PerkEntryPointModifyValue.ModificationType.Set,
             PerkConditionTabCount = 2,
             Conditions = CreatePerkConditions(firstFunctionConditionData, spell),
-            Value = 0
+            Value = 0.0f
         });
 
         applyPerk.Effects.Add(new PerkEntryPointModifyValue
