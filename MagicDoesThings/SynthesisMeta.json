@@ -1,0 +1,16 @@
+{
+  "Nickname": "MagicDoesThings",
+  "Visibility": "IncludeButHide",
+  "OneLineDescription": "Compatibility patcher for Magic Does Things mod",
+  "LongDescription": "An automatic patcher that enables main functionality of Magic Does Things mod on mod added staves and scrolls.\n CURRENTLY DOES NOT SUPPORT MYSTICISM, YOU'LL NEED A MANUAL PATCH",
+  "PreferredAutoVersioning": "Default",
+  "RequiredMods": [
+    "MagicDoesThings.esp"
+  ],
+  "TargetedReleases": [
+    "SkyrimSE",
+    "SkyrimVR",
+    "EnderalSE",
+    "SkyrimSEGog"
+  ]
+}
