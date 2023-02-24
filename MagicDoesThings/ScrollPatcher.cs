@@ -60,16 +60,21 @@ internal class ScrollPatcher
 
     private IFormLink<ISpellGetter>? FindSpellFromMagicEffect(IFormLinkGetter<IMagicEffectGetter> formLink, string? scrollSpellName)
     {
-        foreach (var spellGetter in _state.LoadOrder.PriorityOrder.Spell().WinningOverrides())
+        foreach (var spellGetter in _state.LoadOrder.ListedOrder.Spell().WinningOverrides())
         {
             foreach (var effect in spellGetter.Effects)
             {
                 IFormLinkNullableGetter<IMagicEffectGetter> baseEffect = effect.BaseEffect;
-                if (baseEffect.Equals(formLink))
+                if (baseEffect.Equals(formLink)
+                    && !spellGetter.HalfCostPerk.IsNull
+                    && (spellGetter.EquipmentType.Equals(Skyrim.EquipType.EitherHand.AsNullable())
+                        || spellGetter.EquipmentType.Equals(Skyrim.EquipType.BothHands.AsNullable())
+                        || spellGetter.EquipmentType.Equals(Skyrim.EquipType.RightHand.AsNullable()))
+                    && spellGetter.Type == SpellType.Spell)
                 {
                     if (spellGetter.Name?.String != scrollSpellName)
                     {
-                        Console.WriteLine($"INFO: Spell name of {spellGetter} is different from scroll's {scrollSpellName}");
+                        Console.WriteLine($"  WARN: Spell name of {spellGetter} is different from scroll's {scrollSpellName}");
                     }
                     return spellGetter.ToLink();
                 }
@@ -95,14 +100,14 @@ internal class ScrollPatcher
 
         if (!scroll.Effects[0].BaseEffect.TryResolve(_state.LinkCache, out var baseEffect))
         {
-            Console.WriteLine($"ERROR: {scrollGetter} - failed to resolve base effect, skipping");
+            Console.WriteLine($"  ERROR: {scrollGetter} - failed to resolve base effect, skipping");
             return false;
         }
 
         var spell = FindSpellFromMagicEffect(scroll.Effects[0].BaseEffect, scrollSpellName);
         if (spell == null)
         {
-            Console.WriteLine($"WARN: {scrollGetter} - failed to find according spell, skipping");
+            Console.WriteLine($"  WARN: {scrollGetter} - failed to find according spell, skipping");
             return false;
         }
 
