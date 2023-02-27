@@ -2,6 +2,7 @@ using Mutagen.Bethesda;
 using Mutagen.Bethesda.FormKeys.SkyrimSE;
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Plugins.Aspects;
+using Mutagen.Bethesda.Plugins.Records;
 using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.Strings;
 using Mutagen.Bethesda.Synthesis;
@@ -12,12 +13,21 @@ internal class StaffPatcher
     private readonly Dictionary<IFormLinkNullableGetter<IMagicEffectGetter>, IFormList> _MgefToFormList;
     private readonly IPatcherState<ISkyrimMod, ISkyrimModGetter> _state;
     private readonly Lazy<Settings.Settings> _settings;
+    private readonly MagicEffect.TranslationMask _mgefTranslationMask;
 
     public StaffPatcher(IPatcherState<ISkyrimMod, ISkyrimModGetter> state, Lazy<Settings.Settings> settings)
     {
         _MgefToFormList = new();
         _state = state;
         _settings = settings;
+
+        _mgefTranslationMask = new MagicEffect.TranslationMask(false)
+        {
+            CastingLight = true,
+            HitShader = true,
+            CastingArt = true,
+            Sounds = true,
+        };
     }
 
     public void PatchStaves()
@@ -46,64 +56,6 @@ internal class StaffPatcher
             .ToHashSet();
     }
 
-    private static IFormLink<IMagicEffectGetter>? GetStaffArchetype(IMagicEffectGetter magicEffect)
-    {
-        //log when fail to find archetype
-        switch (magicEffect.MagicSkill)
-        {
-            case ActorValue.Alteration:
-                {
-                    if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.Paralysis) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchAlterationParalysisEffect;
-                    if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.Light) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchAlterationLightEffect;
-                    //TODO: determine ash spells if () return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchAlterationAshEffect;
-                    return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchAlterationLightEffect;
-                }
-
-            case ActorValue.Conjuration:
-                {
-                    return magicEffect.Archetype.Type switch
-                    {
-                        MagicEffectArchetype.TypeEnum.CommandSummoned => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchConjurationCommandEffect,
-                        MagicEffectArchetype.TypeEnum.SummonCreature => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchConjurationSummonEnchEffect,
-                        MagicEffectArchetype.TypeEnum.Banish => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchConjurationSummonEnchEffect,
-                        _ => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchConjurationNonSummonOrCommandEffect
-                    };
-                }
-
-            case ActorValue.Destruction:
-                {
-                    if (magicEffect.HasKeyword(Skyrim.Keyword.MagicDamageFire)) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchDestructionFireEffect;
-                    if (magicEffect.HasKeyword(Skyrim.Keyword.MagicDamageFrost)) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchDestructionFrostEffect;
-                    if (magicEffect.HasKeyword(Skyrim.Keyword.MagicDamageShock)) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchDestructionShockEffect;
-                    return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchDestructionFireEffect; //TODO: template for destruction none
-                }
-            case ActorValue.Illusion:
-                {
-                    return magicEffect.Archetype.Type switch
-                    {
-                        MagicEffectArchetype.TypeEnum.Rally => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchIllusionConfidenceUpEffect,
-                        MagicEffectArchetype.TypeEnum.Demoralize => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchIllusionConfidenceDownEffect,
-                        MagicEffectArchetype.TypeEnum.Frenzy => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchIllusionAggressionUpEffect,
-                        MagicEffectArchetype.TypeEnum.Calm => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchIllusionAggressionDownEffect,
-                        _ => MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchIllusionConfidenceUpEffect //TODO: template
-                    };
-                }
-            case ActorValue.Restoration:
-                {
-                    if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.ValueModifier
-                        && magicEffect.Archetype.ActorValue == ActorValue.Health)
-                    {
-                        if (magicEffect.ResistValue == ActorValue.PoisonResist || magicEffect.ResistValue == ActorValue.ResistDisease) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchRestorationPoisonEffect;
-                        if (magicEffect.ResistValue == ActorValue.None) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchRestorationSunEffect;
-                    }
-                    if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.TurnUndead) return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchRestorationTurnEffect;
-                    return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchRestorationTurnEffect;
-                }
-            default:
-                Console.WriteLine($"Failed to determine template for {magicEffect}");
-                return null;
-        }
-    }
 
     private bool ProcessStaff(IWeaponGetter staffGetter)
     {
@@ -122,7 +74,9 @@ internal class StaffPatcher
             return false;
         }
         string? originalEffectName = originalEffect.Name?.String;
-        IFormLink<IMagicEffectGetter>? templateLink = GetStaffArchetype(originalEffect);
+        string? originalEffectNameTrim = originalEffect.Name?.String?.Replace(" ", "");
+        IFormLink<IMagicEffectGetter>? templateLink = MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchDestructionFrostEffect;
+        TemplateRecord? templateRecord = TemplateRecord.GetTemplateFromMagicEffect(originalEffect);
 
         if (templateLink is null || !templateLink.TryResolve(_state.LinkCache, out var template))
         {
@@ -130,14 +84,21 @@ internal class StaffPatcher
             return false;
         }
 
-        Console.WriteLine($"INFO: Assigned {template} to {staffGetter}");
-        var newEffect = _state.PatchMod.MagicEffects.DuplicateInAsNewRecord(template);
+        if (templateRecord is null)
+        {
+            Console.WriteLine($"ERROR: Failed to determine template for {originalEffect}");
+            return false;
+        }
 
+        var newEffect = _state.PatchMod.MagicEffects.DuplicateInAsNewRecord(template);
         ChangeObjectEffectStats(objectEffect, newEffect);
 
         ChangeTemplateName(newEffect, originalEffectName);
+        newEffect.EditorID = $"_MDTS_{originalEffectNameTrim}Effect";
         newEffect.Description ??= new TranslatedString(Language.English);
         newEffect.Description.String = newEffect.Description.String?.Replace("<Spell>", originalEffectName);
+
+        newEffect.DeepCopyIn(originalEffect, _mgefTranslationMask);
 
         if (!newEffect.EquipAbility.TryResolve(_state.LinkCache, out var hookSpellTemplate))
         {
@@ -149,7 +110,7 @@ internal class StaffPatcher
         newEffect.EquipAbility = hookSpell.ToLink();
 
         ChangeTemplateName(hookSpell, originalEffectName);
-
+        hookSpell.EditorID = $"_MDTS_Hook{originalEffectNameTrim}Spell";
 
         if (!hookSpell.Effects[0].BaseEffect.TryResolve(_state.LinkCache, out var hookEffectTemplate))
         {
@@ -161,6 +122,9 @@ internal class StaffPatcher
         hookSpell.Effects[0].BaseEffect = hookEffect.ToNullableLink();
 
         ChangeTemplateName(hookEffect, originalEffectName);
+        hookSpell.EditorID = $"_MDTS_Hook{originalEffectNameTrim}Effect";
+        hookEffect.Keywords ??= new();
+        hookEffect.Keywords.Add(templateRecord.SpellBladeKeyword);
 
         if (hookEffect.VirtualMachineAdapter is null || hookEffect.VirtualMachineAdapter.Scripts[0].Properties is null)
         {
@@ -186,6 +150,7 @@ internal class StaffPatcher
 
         var lensSpell = _state.PatchMod.Spells.DuplicateInAsNewRecord(lensSpellTemplate);
         lensSpell.Name = newEffect.Name;
+        lensSpell.EditorID = $"_MDTS_Lens{originalEffectNameTrim}Spell";
 
         channelSpellProperty.Object = lensSpell.ToLink();
 
@@ -199,18 +164,22 @@ internal class StaffPatcher
         lensSpell.Effects[0].BaseEffect = lensEffect.ToNullableLink();
 
         ChangeTemplateName(lensEffect, originalEffectName);
+        lensEffect.EditorID = $"_MDTS_Lens{originalEffectNameTrim}Effect";
+        lensEffect.HitShader = originalEffect.HitShader.AsSetter();
+        lensEffect.Archetype.ActorValue = templateRecord.MagicSkill;
+        lensEffect.MenuDisplayObject = templateRecord.DisplayObject.AsNullable();
 
-        if (!lensEffect.PerkToApply.TryResolve(_state.LinkCache, out var perkTemplate))
+        if (!templateRecord.Perk.TryResolve(_state.LinkCache, out var perkTemplate))
         {
             Console.WriteLine($"ERROR: {staffGetter} - {lensEffect} - failed to resolve perk");
             return false;
         }
 
         var perk = _state.PatchMod.Perks.DuplicateInAsNewRecord(perkTemplate);
-
+        perk.EditorID = $"_MDTS_{originalEffectNameTrim}Perk";
         lensEffect.PerkToApply = perk.ToLink();
 
-        var formList = _state.PatchMod.FormLists.AddNew($"_MDT_{objectEffect.Name?.String?.Replace(" ", "")}_FormList");
+        var formList = _state.PatchMod.FormLists.AddNew($"_MDT_{originalEffectNameTrim}_FormList");
 
         foreach (var perkEffect in perk.Effects)
         {
