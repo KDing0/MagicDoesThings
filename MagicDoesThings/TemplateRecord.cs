@@ -44,16 +44,16 @@ internal record TemplateRecord
 
                     if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.Paralysis)
                     {
-                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_LightStaffKeyword;
+                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_ParalysisStaffKeyword;
                         displayObject = Skyrim.Static.MAGInvParalyze;
                     }
                     else if (magicEffect.Archetype.Type == MagicEffectArchetype.TypeEnum.Light)
                     {
-                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_ParalysisStaffKeyword;
+                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_LightStaffKeyword;
                     }
                     else
                     {
-                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_LightStaffKeyword; //TODO: change
+                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_DefaultAlterationStaffKeyword;
                     }
                     //TODO: determine ash spells if () return MagicDoesThings.MagicEffect._MDT_TemplateStaffEnchAlterationAshEffect;
                     break;
@@ -123,7 +123,7 @@ internal record TemplateRecord
                     }
                     else
                     {
-                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_FireStaffKeyword;
+                        spellBladeKeyword = MagicDoesThings.Keyword._MDT_DefaultDestructionStaffKeyword;
                         displayObject = Skyrim.Static.MAGINVFireballArt;
                     }
                     break;
