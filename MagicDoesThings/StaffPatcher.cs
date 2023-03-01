@@ -24,7 +24,6 @@ internal class StaffPatcher
         _mgefTranslationMask = new MagicEffect.TranslationMask(false)
         {
             CastingLight = true,
-            HitShader = true,
             CastingArt = true,
             Sounds = true,
         };

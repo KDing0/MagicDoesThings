@@ -23,7 +23,6 @@ internal class ScrollPatcher
         _originalMgefTranslationMask = new(false)
         {
             CastingLight = true,
-            HitShader = true,
             CastingArt = true,
             Sounds = true,
         };
