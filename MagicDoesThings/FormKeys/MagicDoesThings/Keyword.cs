@@ -31,5 +31,7 @@ public static partial class MagicDoesThings
         public static FormLink<IKeywordGetter> _MDT_MagnusStaffKeyword => Construct(0x9a2);
         public static FormLink<IKeywordGetter> _MDT_WabbajackKeyword => Construct(0x9a6);
         public static FormLink<IKeywordGetter> _MDT_ScrollKeyword => Construct(0x9b6);
+        public static FormLink<IKeywordGetter> _MDT_DefaultDestructionStaffKeyword => Construct(0xa57);
+        public static FormLink<IKeywordGetter> _MDT_DefaultAlterationStaffKeyword => Construct(0xa87);
     }
 }

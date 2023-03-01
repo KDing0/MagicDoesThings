@@ -24,7 +24,6 @@ internal class StaffPatcher
         _mgefTranslationMask = new MagicEffect.TranslationMask(false)
         {
             CastingLight = true,
-            HitShader = true,
             CastingArt = true,
             Sounds = true,
         };
@@ -165,7 +164,7 @@ internal class StaffPatcher
 
         ChangeTemplateName(lensEffect, originalEffectName);
         lensEffect.EditorID = $"_MDTS_Lens{originalEffectNameTrim}Effect";
-        lensEffect.HitShader = originalEffect.HitShader.AsSetter();
+        lensEffect.HitShader = templateRecord.HitShader;
         lensEffect.Archetype.ActorValue = templateRecord.MagicSkill;
         lensEffect.MenuDisplayObject = templateRecord.DisplayObject.AsNullable();
 
@@ -179,7 +178,17 @@ internal class StaffPatcher
         perk.EditorID = $"_MDTS_{originalEffectNameTrim}Perk";
         lensEffect.PerkToApply = perk.ToLink();
 
-        var formList = _state.PatchMod.FormLists.AddNew($"_MDT_{originalEffectNameTrim}_FormList");
+        IFormList formList;
+
+        if (_MgefToFormList.ContainsKey(originalEffect.ToNullableLink()))
+        {
+            formList = _MgefToFormList[originalEffect.ToNullableLink()];
+        }
+        else
+        {
+            formList = _state.PatchMod.FormLists.AddNew($"_MDT_{originalEffectNameTrim}_FormList");
+            _MgefToFormList.Add(originalEffect.ToNullableLink(), formList);
+        }
 
         foreach (var perkEffect in perk.Effects)
         {
@@ -192,7 +201,6 @@ internal class StaffPatcher
             secondConditionData.ParameterOneRecord = formList.ToLink();
         }
 
-        _MgefToFormList.Add(originalEffect.ToNullableLink(), formList);
         _state.PatchMod.ObjectEffects.Add(objectEffect);
         return true;
     }

@@ -23,7 +23,6 @@ internal class ScrollPatcher
         _originalMgefTranslationMask = new(false)
         {
             CastingLight = true,
-            HitShader = true,
             CastingArt = true,
             Sounds = true,
         };
@@ -168,6 +167,8 @@ internal class ScrollPatcher
         MagicEffect firstEffect = _state.PatchMod.MagicEffects.AddNew($"_MDTS_Scroll{scrollSpellName.Replace(" ", "")}Effect");
         firstEffect.DeepCopyIn(secondEffect, _mgefTranslationMask);
         firstEffect.DeepCopyIn(baseEffect, _originalMgefTranslationMask);
+        firstEffect.HitEffectArt = Skyrim.ArtObject.AbsorbSpellEffect;
+
         firstEffect.Name!.String = "Scroll Amplification";
         firstEffect.Description = new TranslatedString(Language.English, $"You may cast <{scrollSpellName}> a total of <{charges}> times for no cost. If you already know <{scrollSpellName}>, it is <20>% more powerful.");
         firstEffect.VirtualMachineAdapter = new()
@@ -274,7 +275,6 @@ internal class ScrollPatcher
         secondEffect.Name = new TranslatedString(Language.English, "Scroll Amplification 2");
         secondEffect.MenuDisplayObject = Skyrim.Static.MagicHatMarker.AsNullable();
         secondEffect.Flags |= MagicEffect.Flag.NoArea
-                            | MagicEffect.Flag.FXPersist
                             | MagicEffect.Flag.HideInUI
                             | MagicEffect.Flag.NoRecast
                             | MagicEffect.Flag.PowerAffectsMagnitude;

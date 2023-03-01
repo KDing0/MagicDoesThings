@@ -118,8 +118,6 @@ public static partial class MagicDoesThings
         public static FormLink<ISpellGetter> _MDT_LensMiraakSpell => Construct(0x937);
         public static FormLink<ISpellGetter> _MDT_HookStaffOFTheFlameAtronachSpell => Construct(0x93b);
         public static FormLink<ISpellGetter> _MDT_LensFlameAtronachSpell => Construct(0x93d);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookDestructionFireSpell => Construct(0x941);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensDestructionFireSpell => Construct(0x943);
         public static FormLink<ISpellGetter> _MDT_StaffBlockSpell => Construct(0x971);
         public static FormLink<ISpellGetter> _MDT_NoSPIDCloakSpell => Construct(0x975);
         public static FormLink<ISpellGetter> _MDT_NoSPIDCloakConcSpell1 => Construct(0x979);
@@ -133,35 +131,5 @@ public static partial class MagicDoesThings
         public static FormLink<ISpellGetter> _MDT_MiraaksStaffHookSpell4 => Construct(0x9b3);
         public static FormLink<ISpellGetter> _MDT_TemplateHookDestructionFrostSpell => Construct(0xa07);
         public static FormLink<ISpellGetter> _MDT_TemplateLensDestructionFrostSpell => Construct(0xa08);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookDestructionShockSpell => Construct(0xa0c);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensDestructionShockSpell => Construct(0xa0d);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookConjurationSummonSpell => Construct(0xa11);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensConjurationSummonSpell => Construct(0xa12);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensIllusionConfidenceUpSpell => Construct(0xa17);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookConjurationNonSummonSpell => Construct(0xa18);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensConjurationNonSummonSpell => Construct(0xa19);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookConjurationReanimateSpell => Construct(0xa1f);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensConjurationReanimateSpell => Construct(0xa20);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookRestorationPoisonSpell => Construct(0xa24);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensRestorationPoisonSpell => Construct(0xa25);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookIllusionConfidenceUpSpell => Construct(0xa29);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookIllusionConfidenceDownSpell => Construct(0xa2d);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensIllusionConfidenceDownSpell => Construct(0xa2e);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookIllusionAggressionUpSpell => Construct(0xa32);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensIllusionAggressionUpSpell => Construct(0xa33);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookIllusionAggressionDownSpell => Construct(0xa37);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensIllusionAggressionDownSpell => Construct(0xa38);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookRestorationSunSpell => Construct(0xa3c);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensRestorationSunSpell => Construct(0xa3d);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookRestorationTurnSpell => Construct(0xa41);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensRestorationTurnSpell => Construct(0xa42);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookConjurationCommandSpell => Construct(0xa47);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensConjurationCommandSpell => Construct(0xa48);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookAlterationLightSpell => Construct(0xa4c);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensAlterationLightSpell => Construct(0xa4d);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookAlterationParalysisSpell => Construct(0xa51);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensAlterationParalysisSpell => Construct(0xa52);
-        public static FormLink<ISpellGetter> _MDT_TemplateHookAlterationAshSpell => Construct(0xa56);
-        public static FormLink<ISpellGetter> _MDT_TemplateLensAlterationAshSpell => Construct(0xa57);
     }
 }
