@@ -10,7 +10,52 @@ public static partial class MagicDoesThings
     public static class FormList
     {
         private static FormLink<IFormListGetter> Construct(uint id) => new FormLink<IFormListGetter>(ModKey.MakeFormKey(id));
-        
+        public static FormLink<IFormListGetter> _MDT_CommandDaedraList => Construct(0x829);
+        public static FormLink<IFormListGetter> _MDT_DreadZombieList => Construct(0x82f);
+        public static FormLink<IFormListGetter> _MDT_StormAtronachList => Construct(0x835);
+        public static FormLink<IFormListGetter> _MDT_ExpelDaedraList => Construct(0x83b);
+        public static FormLink<IFormListGetter> _MDT_FireballList => Construct(0x841);
+        public static FormLink<IFormListGetter> _MDT_IceStormList => Construct(0x84a);
+        public static FormLink<IFormListGetter> _MDT_FrostbiteList => Construct(0x853);
+        public static FormLink<IFormListGetter> _MDT_ChainLightningList => Construct(0x859);
+        public static FormLink<IFormListGetter> _MDT_WallOfFlamesList => Construct(0x863);
+        public static FormLink<IFormListGetter> _MDT_WallOfFrostList => Construct(0x869);
+        public static FormLink<IFormListGetter> _MDT_WallOfStormsList => Construct(0x86f);
+        public static FormLink<IFormListGetter> _MDT_RallyList => Construct(0x875);
+        public static FormLink<IFormListGetter> _MDT_FrenzyList => Construct(0x87b);
+        public static FormLink<IFormListGetter> _MDT_PacifyList => Construct(0x881);
+        public static FormLink<IFormListGetter> _MDT_RoutList => Construct(0x887);
+        public static FormLink<IFormListGetter> _MDT_HealOthersList => Construct(0x88d);
+        public static FormLink<IFormListGetter> _MDT_RepelLesserUndeadList => Construct(0x893);
+        public static FormLink<IFormListGetter> _MDT_TurnGreaterUndeadList => Construct(0x899);
+        public static FormLink<IFormListGetter> _MDT_TurnUndeadList => Construct(0x89f);
+        public static FormLink<IFormListGetter> _MDT_RepelUndeadList => Construct(0x8a5);
+        public static FormLink<IFormListGetter> _MDT_FireboltList => Construct(0x8ab);
+        public static FormLink<IFormListGetter> _MDT_IceSpikeList => Construct(0x8b1);
+        public static FormLink<IFormListGetter> _MDT_LightningBoltList => Construct(0x8b7);
+        public static FormLink<IFormListGetter> _MDT_FlamesList => Construct(0x8bd);
+        public static FormLink<IFormListGetter> _MDT_SparksList => Construct(0x8c3);
+        public static FormLink<IFormListGetter> _MDT_RaiseZombieList => Construct(0x8df);
+        public static FormLink<IFormListGetter> _MDT_FamiliarList => Construct(0x8e5);
+        public static FormLink<IFormListGetter> _MDT_CourageList => Construct(0x8eb);
+        public static FormLink<IFormListGetter> _MDT_FuryList => Construct(0x8f1);
+        public static FormLink<IFormListGetter> _MDT_ReanimateCorpseList => Construct(0x8f7);
+        public static FormLink<IFormListGetter> _MDT_FearList => Construct(0x902);
+        public static FormLink<IFormListGetter> _MDT_CalmList => Construct(0x908);
+        public static FormLink<IFormListGetter> _MDT_HealingList => Construct(0x90e);
+        public static FormLink<IFormListGetter> _MDT_TurnLesserUndeadList => Construct(0x914);
+        public static FormLink<IFormListGetter> _MDT_IncinerateList => Construct(0x92d);
+        public static FormLink<IFormListGetter> _MDT_IcySpearList => Construct(0x933);
+        public static FormLink<IFormListGetter> _MDT_MorasList => Construct(0x939);
+        public static FormLink<IFormListGetter> _MDT_FlameAtronachList => Construct(0x93f);
+        public static FormLink<IFormListGetter> _MDT_StaffEnchTemplateList => Construct(0x945);
+        public static FormLink<IFormListGetter> _MDT_PlayerSpellList => Construct(0x976);
+        public static FormLink<IFormListGetter> _MDT_SoulTrapList => Construct(0xa16);
         public static FormLink<IFormListGetter> _MDT_TemplateList => Construct(0xa1a);
+        public static FormLink<IFormListGetter> _MDT_PlayerPerkList => Construct(0x803);
+        public static FormLink<IFormListGetter> _MDT_BanishDaedraList => Construct(0x816);
+        public static FormLink<IFormListGetter> _MDT_ParalysisList => Construct(0x817);
+        public static FormLink<IFormListGetter> _MDT_FrostAtronachList => Construct(0x81d);
+        public static FormLink<IFormListGetter> _MDT_RevenantList => Construct(0x823);
     }
 }
