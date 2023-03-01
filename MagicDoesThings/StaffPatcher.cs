@@ -164,7 +164,7 @@ internal class StaffPatcher
 
         ChangeTemplateName(lensEffect, originalEffectName);
         lensEffect.EditorID = $"_MDTS_Lens{originalEffectNameTrim}Effect";
-        lensEffect.HitShader = originalEffect.HitShader.AsSetter();
+        lensEffect.HitShader = templateRecord.HitShader;
         lensEffect.Archetype.ActorValue = templateRecord.MagicSkill;
         lensEffect.MenuDisplayObject = templateRecord.DisplayObject.AsNullable();
 
