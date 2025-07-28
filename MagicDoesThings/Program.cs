@@ -3,6 +3,7 @@ using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.Synthesis;
 using Mutagen.Bethesda.FormKeys.SkyrimSE;
 using Mutagen.Bethesda.Plugins;
+using Synthesis.Bethesda;
 using Noggog;
 
 namespace MagicDoesThingsPatcher;
