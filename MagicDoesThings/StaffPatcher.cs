@@ -193,13 +193,14 @@ internal class StaffPatcher
 
         foreach (var perkEffect in perk.Effects)
         {
-            if (perkEffect.Conditions[0].Conditions[0].Data is not Mutagen.Bethesda.Skyrim.FunctionConditionData firstConditionData || perkEffect.Conditions[1].Conditions[0].Data is not Mutagen.Bethesda.Skyrim.FunctionConditionData secondConditionData)
+            if (perkEffect.Conditions[0].Conditions[0].Data is not HasMagicEffectConditionData firstConditionData ||
+                perkEffect.Conditions[1].Conditions[0].Data is not IIsInListConditionData secondConditionData)
             {
                 Console.WriteLine($"ERROR: failed to get condition data from {perk}");
                 return false;
             }
-            firstConditionData.ParameterOneRecord = lensEffect.ToLink();
-            secondConditionData.ParameterOneRecord = formList.ToLink();
+            firstConditionData.MagicEffect = lensEffect.ToLink();
+            secondConditionData.FormList = formList.ToLink();
         }
 
         _state.PatchMod.ObjectEffects.Add(objectEffect);
