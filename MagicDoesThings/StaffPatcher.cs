@@ -199,8 +199,8 @@ internal class StaffPatcher
                 Console.WriteLine($"ERROR: failed to get condition data from {perk}");
                 return false;
             }
-            firstConditionData.MagicEffect = lensEffect.ToLink();
-            secondConditionData.FormList = formList.ToLink();
+            firstConditionData.MagicEffect = (IFormLinkOrIndex<IMagicEffectGetter>)lensEffect.ToLink();
+            secondConditionData.FormList = (IFormLinkOrIndex<IFormListGetter>)formList.ToLink();
         }
 
         _state.PatchMod.ObjectEffects.Add(objectEffect);
