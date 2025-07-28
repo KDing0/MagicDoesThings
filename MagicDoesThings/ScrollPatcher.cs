@@ -200,7 +200,7 @@ internal class ScrollPatcher
                         {
                             CompareOperator = CompareOperator.EqualTo,
                             ComparisonValue = 1,
-                            Data = effectConditionData
+                            Data = (ConditionData)effectConditionData
                         }
                     }
                 },
@@ -215,7 +215,7 @@ internal class ScrollPatcher
                             ComparisonValue = 1,
                             Data = new GetIsIDConditionData
                             {
-                                Object = spell,
+                                Object = (IFormLinkOrIndex<IReferenceableObjectGetter>)spell,
                                 RunOnType = Condition.RunOnType.Subject
                             }
                         }
@@ -229,12 +229,12 @@ internal class ScrollPatcher
 
         HasMagicEffectConditionData firstFunctionConditionData = new()
         {
-            MagicEffect = firstEffect.ToLink(),
+            MagicEffect = (IFormLinkOrIndex<IMagicEffectGetter>)firstEffect.ToLink(),
             RunOnType = Condition.RunOnType.Subject
         };
         HasMagicEffectConditionData secondFunctionConditionData = new()
         {
-            MagicEffect = secondEffect.ToLink(),
+            MagicEffect = (IFormLinkOrIndex<IMagicEffectGetter>)secondEffect.ToLink(),
             RunOnType = Condition.RunOnType.Subject
         };
 
@@ -295,7 +295,7 @@ internal class ScrollPatcher
             ComparisonValue = 1,
             Data = new HasSpellConditionData()
             {
-                Spell = spell,
+                Spell = (IFormLinkOrIndex<ISpellGetter>)spell,
                 RunOnType = Condition.RunOnType.Subject
             }
         });
