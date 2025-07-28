@@ -49,7 +49,7 @@ internal class ScrollPatcher
     {
         return _state.LoadOrder.ListedOrder
             .Scroll().WinningOverrides()
-            .Where(x => x.CastType == CastType.Scroll)
+            .Where(x => x.CastType == CastType.FireAndForget)
             .Where(x =>
             {
                 var origin = _state.LinkCache.Resolve<IScrollGetter>(x.FormKey, Mutagen.Bethesda.Plugins.Cache.ResolveTarget.Origin);
@@ -189,7 +189,7 @@ internal class ScrollPatcher
 
     private Perk CreatePerk(string scrollSpellName, IFormLink<ISpellGetter> spell, bool isEffectUsingMagnitude, MagicEffect secondEffect, MagicEffect firstEffect)
     {
-        static Noggog.ExtendedList<PerkCondition> CreatePerkConditions(FunctionConditionData effectConditionData, IFormLink<ISpellGetter> spell) => new()
+        static Noggog.ExtendedList<PerkCondition> CreatePerkConditions(Mutagen.Bethesda.Skyrim.FunctionConditionData effectConditionData, IFormLink<ISpellGetter> spell) => new()
             {
                 new PerkCondition
                 {
@@ -213,7 +213,7 @@ internal class ScrollPatcher
                         {
                             CompareOperator = CompareOperator.EqualTo,
                             ComparisonValue = 1,
-                            Data = new FunctionConditionData
+                            Data = new Mutagen.Bethesda.Skyrim.FunctionConditionData
                             {
                                 Function = Condition.Function.GetIsID,
                                 ParameterOneRecord = spell,
@@ -228,13 +228,13 @@ internal class ScrollPatcher
         applyPerk.Playable = true;
         applyPerk.NumRanks = 1;
 
-        FunctionConditionData firstFunctionConditionData = new()
+        Mutagen.Bethesda.Skyrim.FunctionConditionData firstFunctionConditionData = new()
         {
             Function = Condition.Function.HasMagicEffect,
             ParameterOneRecord = firstEffect.ToLink(),
             RunOnType = Condition.RunOnType.Subject
         };
-        FunctionConditionData secondFunctionConditionData = new()
+        Mutagen.Bethesda.Skyrim.FunctionConditionData secondFunctionConditionData = new()
         {
             Function = Condition.Function.HasMagicEffect,
             ParameterOneRecord = secondEffect.ToLink(),
@@ -282,7 +282,7 @@ internal class ScrollPatcher
 
         secondEffect.BaseCost = 1;
         secondEffect.SpellmakingCastingTime = 0.5f;
-        secondEffect.Archetype = new()
+        secondEffect.Archetype = new MagicEffectArchetype()
         {
             Type = MagicEffectArchetype.TypeEnum.Script,
             ActorValue = ActorValue.None
@@ -296,7 +296,7 @@ internal class ScrollPatcher
         {
             CompareOperator = CompareOperator.EqualTo,
             ComparisonValue = 1,
-            Data = new FunctionConditionData()
+            Data = new Mutagen.Bethesda.Skyrim.FunctionConditionData()
             {
                 Function = Condition.Function.HasSpell,
                 RunOnType = Condition.RunOnType.Subject,

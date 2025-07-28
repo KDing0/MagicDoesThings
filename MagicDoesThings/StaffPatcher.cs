@@ -193,7 +193,7 @@ internal class StaffPatcher
 
         foreach (var perkEffect in perk.Effects)
         {
-            if (perkEffect.Conditions[0].Conditions[0].Data is not FunctionConditionData firstConditionData || perkEffect.Conditions[1].Conditions[0].Data is not FunctionConditionData secondConditionData)
+            if (perkEffect.Conditions[0].Conditions[0].Data is not Mutagen.Bethesda.Skyrim.FunctionConditionData firstConditionData || perkEffect.Conditions[1].Conditions[0].Data is not Mutagen.Bethesda.Skyrim.FunctionConditionData secondConditionData)
             {
                 Console.WriteLine($"ERROR: failed to get condition data from {perk}");
                 return false;
